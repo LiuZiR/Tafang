@@ -11,7 +11,7 @@ Towerposition::Towerposition(QPoint pos,const QPixmap &sprite)
 
 }
 
- const QPoint Towerposition::getCenter() const
+ const QPoint Towerposition::Center() const
 {
   QPoint offsetPoint(Size.width() / 2, Size.height() / 2);
   return m_pos + offsetPoint;

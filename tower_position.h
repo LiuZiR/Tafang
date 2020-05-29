@@ -7,10 +7,10 @@
 class Towerposition
 {
 public:
-    Towerposition(QPoint pos,const QPixmap &sprite=QPixmap("C:/Users/86185/Documents/Tafang/Resources/keng.png"));
+    Towerposition(QPoint pos,const QPixmap &sprite=QPixmap(":/Resources/keng.png"));
     void setHasTower(bool hasTower = true);
     bool hasTower() const;
-    const QPoint getCenter() const;
+    const QPoint Center() const;
     bool containPoint(const QPoint &pos) const;
     void draw(QPainter *painter) const;
 

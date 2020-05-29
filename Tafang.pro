@@ -27,11 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    tower_position.cpp
+    tower_position.cpp \
+    tower.cpp \
+    waypoint.cpp
 
 HEADERS += \
         mainwindow.h \
-    tower_position.h
+    tower_position.h \
+    tower.h \
+    waypoint.h
 
 FORMS += \
         mainwindow.ui
@@ -40,3 +44,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc
