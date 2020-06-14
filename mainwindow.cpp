@@ -22,6 +22,17 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(30);
     loadWave();
 }
+void MainWindow::addBullet(Bullet* bullet)
+{
+    Q_ASSERT(bullet);
+    m_bulletList.push_back(bullet);
+}
+void MainWindow::removedBullet(Bullet* bullet)
+{
+    Q_ASSERT(bullet);
+    m_bulletList.removeOne(bullet);
+    delete bullet;
+}
 bool MainWindow::canBuyTower() const
 {
     return true;
@@ -36,7 +47,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
        if(canBuyTower() && it->containPoint(pressPos) && !it->hasTower())
        {
            it->setHasTower();
-           Tower *tower = new Tower(it->Center());
+           Tower *tower = new Tower(it->Center(),this);
            m_towersList.push_back(tower);
            update();
            break;
@@ -48,11 +59,14 @@ void MainWindow::updateMap()
 {
     foreach(Enemy *enemy, m_enemyList)
         enemy->move();
+    foreach(Tower *tower,m_towersList)
+        tower->checkEnemyinRange();
     update();
 }
 
 void MainWindow::removedEnemy(Enemy *enemy)
 {
+    Q_ASSERT(enemy);
     m_enemyList.removeOne(enemy);
     delete enemy;
     if(m_enemyList.empty())
@@ -69,7 +83,7 @@ bool MainWindow::loadWave()
     if(m_waves >= 6)
        return false;
     Waypoint* startWayPoint = m_waypointList[0];
-    int enemyStartInterval[]={100,400,700,1000,1300,1600};
+    int enemyStartInterval[]={100,600,1100,1600,2100,2600};
     for(int i=0;i < 6; ++i)
     {
         Enemy *enemy = new Enemy(startWayPoint,this);
@@ -92,10 +106,11 @@ void MainWindow::paintEvent(QPaintEvent *)
         towerPos.draw(&painter);
     foreach (Tower *tower, m_towersList)
         tower->draw_range(&painter);
-    foreach(Waypoint *waypoint, m_waypointList)
-        waypoint->draw(&painter);
+
     foreach(Enemy* enemy, m_enemyList)
         enemy->draw(&painter);
+    foreach (const Bullet *bullet, m_bulletList)
+        bullet->draw(&painter);
 }
 
 void MainWindow::loadTowerPositions()

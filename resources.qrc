@@ -3,6 +3,9 @@
         <file>Resources/atower.png</file>
         <file>Resources/keng.png</file>
         <file>Resources/map.jpg</file>
-        <file>Resources/enemy.jpg</file>
+        <file>Resources/tower.png</file>
+        <file>Resources/bullet.png</file>
+        <file>Resources/enemy.png</file>
+        <file>Resources/greenBottle.png</file>
     </qresource>
 </RCC>
