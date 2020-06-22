@@ -17,7 +17,7 @@ class Enemy:public QObject
 {
     Q_OBJECT
 public:
-    Enemy(Waypoint *startWayPoint, MainWindow *game, const QPixmap &sprite=QPixmap(":/Resources/enemy.png"));
+    Enemy(Waypoint *startWayPoint, MainWindow *game, int waves,const QPixmap &sprite=QPixmap(":/Resources/enemy.png"));
     ~Enemy();
     void draw(QPainter *painter);
     void move();
@@ -26,6 +26,7 @@ public:
     void getDamaged(int damage);
     void getAttacked(Tower* attacker);
     void gotLostSight(Tower* attacker);
+    void slowdown();
 public slots:
     void doActivate();
 protected:
@@ -40,5 +41,7 @@ protected:
     double m_rotationSprite;
     QSize ms_fixedSize;
     QList<Tower*> m_attackedTowersList;
+    int m_waves;
+    bool isSlowedDown=false;
 };
 #endif // ENEMY_H

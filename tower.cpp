@@ -20,6 +20,7 @@ Tower::Tower(QPoint pos,MainWindow* game,const QPixmap &sprite)
 , m_game(game)
 , m_pos(pos)
 , m_sprite(sprite)
+, m_type(0)
 {
   m_attackRange=120;
   m_fireRateTimer = new QTimer(this);
@@ -55,7 +56,7 @@ void Tower::chooseEnemyforAttack(Enemy* enemy)
 }
 void Tower::shootWeapon()
 {
-    Bullet *bullet = new Bullet(m_pos,m_chooseEnemy->pos(),m_damage,m_chooseEnemy,m_game);
+    Bullet *bullet = new Bullet(m_pos,m_chooseEnemy->pos(),m_damage,m_chooseEnemy,m_game,m_type);
     bullet->move();
     m_game->addBullet(bullet);
 }
@@ -76,6 +77,8 @@ void Tower::looseSightofEnemy()
 }
 void Tower::draw_range(QPainter *painter)
 {
+    if(m_type==1)
+    m_sprite = QPixmap(":/Resources/bottle.png");
     painter->save();
     painter->setPen(Qt::white);
 

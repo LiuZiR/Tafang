@@ -10,7 +10,7 @@
 const QSize Bullet::m_size(8,8);
 
 Bullet::Bullet(QPoint startPos,QPoint targetPos,int damage
-               ,Enemy* target,MainWindow *game,const QPixmap &sprite)
+               ,Enemy* target,MainWindow *game,int type,const QPixmap &sprite)
     :m_startPos(startPos)
     ,m_targetPos(targetPos)
     ,m_currentPos(startPos)
@@ -18,6 +18,7 @@ Bullet::Bullet(QPoint startPos,QPoint targetPos,int damage
     ,m_target(target)
     ,m_game(game)
     ,m_damage(damage)
+    ,m_type(type)
 {
 
 }
@@ -41,8 +42,11 @@ void Bullet::setCurrentPos(QPoint pos)
 }
 void Bullet::hitTarget()
 {
+    if(m_type==1)
+        m_damage=8;
     if (m_game->enemyList().indexOf(m_target) != -1)
         m_target->getDamaged(m_damage);
+    if(m_type==1)
+        m_target->slowdown();
     m_game->removedBullet(this);
-    printf("1");
 }

@@ -23,13 +23,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void getHpDamage(){};
+    void getHpDamage();
     void removedEnemy(Enemy *enemy);
     void removedBullet(Bullet *bullet);
     bool loadWave();
     QList<Enemy*> enemyList(){return m_enemyList;}
     void addBullet(Bullet* bullet);
-
+    void awardGold(int gold);
 public slots:
     void updateMap();
 private:
@@ -45,6 +45,8 @@ private:
     void addWayPoints();
     bool canBuyTower() const;
     int m_waves;
+    int m_playerHp;
+    int m_playerGold;
     bool m_gameWin;
     bool m_gameEnded;
 };

@@ -18,6 +18,7 @@ public:
     void removeBullet();
     void looseSightofEnemy();
     void checkEnemyinRange();
+    void setType(int type){m_type=type;}
 public slots:
     void shootWeapon();
 protected:
@@ -31,6 +32,7 @@ protected:
     Enemy* m_chooseEnemy;
     QTimer* m_fireRateTimer;
     MainWindow* m_game;
+    int m_type;
 };
 
 #endif // TOWER_H

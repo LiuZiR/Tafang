@@ -13,7 +13,7 @@ class Bullet:public QObject
     Q_PROPERTY(QPoint m_currentPos READ currentPos WRITE setCurrentPos)
 public:
     Bullet(QPoint startPos,QPoint targetPos,int damage
-                   ,Enemy* target,MainWindow *game,
+                   ,Enemy* target,MainWindow *game,int type,
                    const QPixmap& sprite = QPixmap(":/Resources/bullet.png"));
     void draw(QPainter *painter) const;
     void move();
@@ -30,6 +30,7 @@ private:
     MainWindow* m_game;
     int m_damage;
     static const QSize m_size;
+    int m_type;
 };
 
 #endif // BULLET_H

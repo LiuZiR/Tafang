@@ -7,5 +7,6 @@
         <file>Resources/bullet.png</file>
         <file>Resources/enemy.png</file>
         <file>Resources/greenBottle.png</file>
+        <file>Resources/bottle.png</file>
     </qresource>
 </RCC>

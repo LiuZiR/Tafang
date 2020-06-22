@@ -11,17 +11,18 @@
 #include <QVector2D>
 #include <QtMath>
 
-Enemy::Enemy(Waypoint *startWayPoint, MainWindow *game, const QPixmap &sprite)
+Enemy::Enemy(Waypoint *startWayPoint, MainWindow *game, int waves ,const QPixmap &sprite)
     :QObject(0)
     ,m_pos(startWayPoint->pos())
     ,m_sprite(sprite)
-    ,m_destinationWayPoint(startWayPoint->nextWayPoint()),
-     ms_fixedSize(60,40)
+    ,m_destinationWayPoint(startWayPoint->nextWayPoint())
+    ,ms_fixedSize(60,40)
+    ,m_waves(waves)
 {
      m_maxHP = 40;
      m_currentHP = 40;
      m_active= false;
-     m_speed = 0.1;
+     m_speed = 1+0.1*m_waves;
      m_rotationSprite=0.0;
      m_game = game;
 };
@@ -80,19 +81,14 @@ void Enemy::move()
     QPoint offsetPoint = (targetPoint-m_pos);
     if(offsetPoint.x()==0)
     {
-    m_pos = m_pos + QPoint(0,1)*2;}
+    m_pos = m_pos + QPoint(0,1)*2*m_speed;}
     else if(offsetPoint.x()>0){
-    m_pos = m_pos + QPoint(1,0)*2;
+    m_pos = m_pos + QPoint(1,0)*2*m_speed;
 }
     else {
-    m_pos = m_pos + QPoint(-1,0)*2;
+    m_pos = m_pos + QPoint(-1,0)*2*m_speed;
     }
-    /*
-    qreal movementSpeed = m_speed;
-    QVector2D normalized(targetPoint - m_pos);
-    normalized.normalize();
-    m_pos = m_pos + normalized.toPoint() * movementSpeed;
-    m_rotationSprite = qRadiansToDegrees(qAtan2(normalized.y(), normalized.x())) + 180;*/
+
 }
 void Enemy::doActivate()
 {
@@ -114,5 +110,17 @@ void Enemy::getDamaged(int damage)
 {
     m_currentHP-=damage;
     if(m_currentHP<=0)
+        {
+        m_game->awardGold(100);
         this->getRemoved();
+        }
+}
+void Enemy::slowdown()
+{
+    if(isSlowedDown==false)
+    {
+        isSlowedDown=true;
+        m_speed*=0.5;
+    }
+
 }
