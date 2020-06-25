@@ -19,8 +19,8 @@ Enemy::Enemy(Waypoint *startWayPoint, MainWindow *game, int waves ,const QPixmap
     ,ms_fixedSize(60,40)
     ,m_waves(waves)
 {
-     m_maxHP = 40;
-     m_currentHP = 40;
+     m_maxHP = 20+10*m_waves;
+     m_currentHP = 20+10*m_waves;
      m_active= false;
      m_speed = 1+0.1*m_waves;
      m_rotationSprite=0.0;
@@ -93,6 +93,7 @@ void Enemy::move()
 void Enemy::doActivate()
 {
     m_active = true;
+
 }
 void Enemy::getAttacked(Tower *attacker)
 {
@@ -109,7 +110,7 @@ void Enemy::getRemoved()
 void Enemy::getDamaged(int damage)
 {
     m_currentHP-=damage;
-    if(m_currentHP<=0)
+    if(m_currentHP<=1)
         {
         m_game->awardGold(100);
         this->getRemoved();

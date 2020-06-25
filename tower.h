@@ -19,6 +19,10 @@ public:
     void looseSightofEnemy();
     void checkEnemyinRange();
     void setType(int type){m_type=type;}
+    void upgrade();
+    bool containPoint(QPoint &point);
+    int getLevel(){return m_level;}
+    bool hasEnemy();
 public slots:
     void shootWeapon();
 protected:
@@ -33,6 +37,7 @@ protected:
     QTimer* m_fireRateTimer;
     MainWindow* m_game;
     int m_type;
+    int m_level;
 };
 
 #endif // TOWER_H

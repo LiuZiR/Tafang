@@ -7,6 +7,7 @@
 #include <waypoint.h>
 #include <enemy.h>
 #include <bullet.h>
+
 class Tower;
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,7 @@ public:
     QList<Enemy*> enemyList(){return m_enemyList;}
     void addBullet(Bullet* bullet);
     void awardGold(int gold);
+    void upgradeTower(Tower &tower);
 public slots:
     void updateMap();
 private:
@@ -49,5 +51,7 @@ private:
     int m_playerGold;
     bool m_gameWin;
     bool m_gameEnded;
+
 };
+
 #endif // MAINWINDOW_H

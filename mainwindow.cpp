@@ -40,6 +40,7 @@ static const int Towercost=200;
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
    static int type=0;
+   static int flag=0;
    QPoint pressPos = event->pos();
    if(50<pressPos.x()&&pressPos.x()<100&&50<pressPos.y()&&pressPos.y()<100)
    {
@@ -48,6 +49,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
    if(400<pressPos.x()&&pressPos.x()<450&&50<pressPos.y()&&pressPos.y()<100)
    {
        type=1;
+   }
+   if(50<pressPos.x()&&pressPos.x()<100&&120<pressPos.y()&&pressPos.y()<170)
+   {
+       flag=1;
+   }
+   if(400<pressPos.x()&&pressPos.x()<450&&120<pressPos.y()&&pressPos.y()<170)
+   {
+       flag=2;
    }
    auto it = m_towerPositionsList.begin();
    while(it != m_towerPositionsList.end())
@@ -62,9 +71,29 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
            update();
            break;
        }
+       foreach(Tower *tower,m_towersList)
+       {
+           if(canBuyTower() && it->containPoint(pressPos) && it->hasTower()&&tower->containPoint(pressPos)&&flag==1)
+           {
+               if(tower->getLevel()<5)
+               {tower->upgrade();
+               m_playerGold -= 100;}
+           }
+           if(it->containPoint(pressPos) && it->hasTower()&&tower->containPoint(pressPos)&&flag==2)
+           {
+               m_towersList.removeOne(tower);
+               if(tower->hasEnemy())
+               tower->looseSightofEnemy();
+               delete tower;
+               it->setHasTower(false);
+               m_playerGold += (150+tower->getLevel()*150);
+           }
+       }
        ++it;
    }
+
 }
+
 void MainWindow::awardGold(int gold)
 {
     m_playerGold += gold;
@@ -94,7 +123,7 @@ void MainWindow::removedEnemy(Enemy *enemy)
 }
 bool MainWindow::loadWave()
 {
-    if(m_waves >= 6)
+    if(m_waves >= 15)
        return false;
     Waypoint* startWayPoint = m_waypointList[0];
     int enemyStartInterval[]={100,600,1100,1600,2100,2600};
@@ -128,10 +157,15 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.drawText(QRect(200, 25, 200, 25), QString("GOLD : %1").arg(m_playerGold));
     painter.drawPixmap(50,50,QPixmap(":/Resources/greenBottle.png"));
     painter.drawPixmap(400,50,QPixmap(":/Resources/bottle.png"));
+    painter.drawPixmap(50,120,QPixmap(":/Resources/upgrade.jpg"));
+    painter.drawPixmap(400,120,QPixmap(":/Resources/chanzi.png"));
     foreach (const Towerposition &towerPos, m_towerPositionsList)
         towerPos.draw(&painter);
     foreach (Tower *tower, m_towersList)
+    {
         tower->draw_range(&painter);
+
+    }
 
     foreach(Enemy* enemy, m_enemyList)
         enemy->draw(&painter);

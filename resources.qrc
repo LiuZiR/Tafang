@@ -8,5 +8,7 @@
         <file>Resources/enemy.png</file>
         <file>Resources/greenBottle.png</file>
         <file>Resources/bottle.png</file>
+        <file>Resources/upgrade.jpg</file>
+        <file>Resources/chanzi.png</file>
     </qresource>
 </RCC>

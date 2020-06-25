@@ -21,6 +21,7 @@ Tower::Tower(QPoint pos,MainWindow* game,const QPixmap &sprite)
 , m_pos(pos)
 , m_sprite(sprite)
 , m_type(0)
+, m_level(0)
 {
   m_attackRange=120;
   m_fireRateTimer = new QTimer(this);
@@ -75,6 +76,14 @@ void Tower::looseSightofEnemy()
     m_fireRateTimer->stop();
     m_rotationSprite=0.0;
 }
+bool Tower::hasEnemy()
+{
+    if(m_chooseEnemy)
+        return true;
+    else {
+        return false;
+    }
+}
 void Tower::draw_range(QPainter *painter)
 {
     if(m_type==1)
@@ -83,8 +92,27 @@ void Tower::draw_range(QPainter *painter)
     painter->setPen(Qt::white);
 
     static const QPoint offsetPoint(-Size.width()/2,-Size.height()/2);
+
     painter->translate(m_pos);
+    for(int i=0;i<m_level;i++)
+    painter->drawPixmap(QPoint(-25+7*i,20),QPixmap(":/Resources/bullet.png"));
     painter->rotate(m_rotationSprite);
     painter->drawPixmap(offsetPoint,m_sprite);
+
     painter->restore();
+}
+void Tower::upgrade()
+{
+
+    m_attackRange += 10;
+    m_damage += 2;
+    m_firerate -= 50;
+    m_level += 1;
+}
+
+bool Tower::containPoint(QPoint &pos)
+{
+    bool isXInHere = m_pos.x()-Size.width()/2 < pos.x() && pos.x() < (m_pos.x() + Size.width()/2);
+    bool isYInHere = m_pos.y()-Size.height()/2 < pos.y() && pos.y() < (m_pos.y() + Size.height()/2);
+    return isXInHere && isYInHere;
 }
